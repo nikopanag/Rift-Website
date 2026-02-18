@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FEATURES, COLORS, type Feature } from '../constants';
 
 function FeatureCard({ feature }: { feature: Feature }) {
@@ -30,6 +30,15 @@ function FeatureCard({ feature }: { feature: Feature }) {
 }
 
 export function Features() {
+  const [cols, setCols] = useState(3);
+
+  useEffect(() => {
+    const update = () => setCols(window.innerWidth >= 900 ? 3 : window.innerWidth >= 600 ? 2 : 1);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
   return (
     <section id="features" style={{ padding: '80px 24px', maxWidth: 1300, margin: '0 auto' }}>
       <div style={{ textAlign: 'center', marginBottom: 56 }}>
@@ -44,7 +53,7 @@ export function Features() {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gridTemplateColumns: `repeat(${cols}, 1fr)`,
           gap: 18,
         }}
       >
