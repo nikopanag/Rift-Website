@@ -30,7 +30,7 @@ export function EarlyAccess() {
   return (
     <section
       id="early-access"
-      style={{ padding: '100px 24px', position: 'relative', overflow: 'hidden' }}
+      style={{ padding: '100px 24px', position: 'relative', overflow: 'visible' }}
     >
       <Glow color={COLORS.blue} style={{ top: '-20%', right: '-8%', opacity: 0.08 }} />
 

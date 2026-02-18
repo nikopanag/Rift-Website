@@ -10,7 +10,7 @@ export function Footer() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        maxWidth: 1100,
+        maxWidth: 1300,
         margin: '0 auto',
         flexWrap: 'wrap',
         gap: 16,

@@ -31,7 +31,7 @@ function FeatureCard({ feature }: { feature: Feature }) {
 
 export function Features() {
   return (
-    <section id="features" style={{ padding: '80px 24px', maxWidth: 1100, margin: '0 auto' }}>
+    <section id="features" style={{ padding: '80px 24px', maxWidth: 1300, margin: '0 auto' }}>
       <div style={{ textAlign: 'center', marginBottom: 56 }}>
         <h2 style={{ fontWeight: 800, fontSize: 40, margin: '0 0 12px 0' }}>
           Everything in One Place

@@ -21,7 +21,7 @@ export function Hero() {
         justifyContent: 'center',
         textAlign: 'center',
         padding: '120px 24px 80px',
-        overflow: 'hidden',
+        overflow: 'visible',
       }}
     >
       <Glow color={COLORS.blue} style={{ top: '-10%', left: '-10%', width: 600, height: 600 }} />

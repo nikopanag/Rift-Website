@@ -177,11 +177,11 @@ export function Deals() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [containerWidth, setContainerWidth] = useState(1100);
+  const [containerWidth, setContainerWidth] = useState(1300);
   const trackRef = useRef<HTMLDivElement>(null);
 
   const gap = 14;
-  const visibleCount = containerWidth >= 1100 ? 5 : containerWidth >= 700 ? 3 : 2;
+  const visibleCount = containerWidth >= 1000 ? 5 : containerWidth >= 700 ? 3 : 2;
   const cardWidth = (containerWidth - (visibleCount - 1) * gap) / visibleCount;
   const maxIndex = Math.max(0, deals.length - visibleCount);
   const offset = currentIndex * (cardWidth + gap);
@@ -240,10 +240,10 @@ export function Deals() {
   const goRight = () => setCurrentIndex((prev) => Math.min(maxIndex, prev + visibleCount));
 
   return (
-    <section id="deals" style={{ padding: '80px 24px', position: 'relative', overflow: 'hidden' }}>
+    <section id="deals" style={{ padding: '80px 24px', position: 'relative', overflow: 'visible' }}>
       <Glow color={COLORS.blue} style={{ top: '10%', left: '-5%', width: 400, height: 400, opacity: 0.08 }} />
 
-      <div style={{ maxWidth: 1100, margin: '0 auto', position: 'relative', zIndex: 2 }}>
+      <div style={{ maxWidth: 1300, margin: '0 auto', position: 'relative', zIndex: 2 }}>
         {/* Header + arrows */}
         <div style={{
           display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
@@ -264,7 +264,7 @@ export function Deals() {
         </div>
 
         {/* Carousel */}
-        <div ref={trackRef} style={{ overflow: 'hidden' }}>
+        <div ref={trackRef} style={{ overflow: 'hidden', paddingTop: 8 }}>
           <div style={{
             display: 'flex',
             gap,
