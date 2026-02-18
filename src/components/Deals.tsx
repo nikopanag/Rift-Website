@@ -127,49 +127,20 @@ function DealCard({ deal, width, storeMap }: {
           </span>
         </div>
 
-        {/* Discount / Free badge */}
-        {(discount > 0 || salePrice === 0) && (
-          <div style={{ marginTop: 8 }}>
-            <span style={{
-              display: 'inline-block',
-              padding: '3px 8px',
-              borderRadius: 5,
-              background: salePrice === 0 ? 'rgba(59,130,246,0.15)' : 'rgba(34,197,94,0.15)',
-              color: salePrice === 0 ? '#60a5fa' : '#22c55e',
-              fontWeight: 700,
-              fontSize: 13,
-            }}>
-              {salePrice === 0 ? 'FREE' : `-${discount}%`}
-            </span>
-          </div>
-        )}
-
-        {/* Genre tags */}
-        {deal.rift?.genres?.length > 0 && (
-          <div style={{ display: 'flex', gap: 4, marginTop: 8, flexWrap: 'wrap' }}>
-            {deal.rift.genres.slice(0, 2).map((genre) => (
-              <span
-                key={genre}
-                style={{
-                  fontSize: 10, padding: '2px 6px', borderRadius: 4,
-                  background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.4)', fontWeight: 500,
-                }}
-              >
-                {genre}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {/* Price */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10 }}>
+        {/* Price line: sale price, original, discount % */}
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginTop: 10 }}>
           <span style={{ fontWeight: 800, fontSize: 18, color: '#fff' }}>
             {salePrice === 0 ? 'Free' : `$${salePrice.toFixed(2)}`}
           </span>
           {discount > 0 && normalPrice > 0 && salePrice !== normalPrice && (
-            <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.25)', textDecoration: 'line-through' }}>
-              ${normalPrice.toFixed(2)}
-            </span>
+            <>
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)', textDecoration: 'line-through' }}>
+                ${normalPrice.toFixed(2)}
+              </span>
+              <span style={{ fontSize: 12, color: '#22c55e', fontWeight: 600 }}>
+                -{discount}%
+              </span>
+            </>
           )}
         </div>
       </div>
@@ -193,8 +164,7 @@ function DealSkeleton({ width }: { width: number }) {
       <div style={{ padding: '12px 14px 14px' }}>
         <div style={{ width: '80%', height: 14, borderRadius: 4, background: 'rgba(255,255,255,0.06)' }} />
         <div style={{ width: '55%', height: 12, borderRadius: 4, background: 'rgba(255,255,255,0.04)', marginTop: 10 }} />
-        <div style={{ width: '30%', height: 18, borderRadius: 5, background: 'rgba(255,255,255,0.05)', marginTop: 10 }} />
-        <div style={{ width: '40%', height: 18, borderRadius: 4, background: 'rgba(255,255,255,0.06)', marginTop: 14 }} />
+        <div style={{ width: '45%', height: 18, borderRadius: 4, background: 'rgba(255,255,255,0.06)', marginTop: 12 }} />
       </div>
     </div>
   );
