@@ -54,6 +54,7 @@ export function Features() {
         style={{
           display: 'grid',
           gridTemplateColumns: `repeat(${cols}, 1fr)`,
+          gridAutoRows: '1fr',
           gap: 18,
         }}
       >
