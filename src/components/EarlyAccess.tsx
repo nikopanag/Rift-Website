@@ -5,11 +5,25 @@ import { COLORS } from '../constants';
 
 export function EarlyAccess() {
   const [email, setEmail] = useState('');
-  const [joined, setJoined] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
-  const handleJoin = () => {
-    if (email.includes('@')) {
-      setJoined(true);
+  const handleJoin = async () => {
+    if (!email.includes('@') || !email.includes('.')) return;
+
+    setStatus('submitting');
+    try {
+      const res = await fetch('https://formspree.io/f/xgolzodq', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        setStatus('success');
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
     }
   };
 
@@ -58,7 +72,7 @@ export function EarlyAccess() {
           future of game management.
         </p>
 
-        {joined ? (
+        {status === 'success' ? (
           <div
             style={{
               padding: '16px 24px',
@@ -91,6 +105,7 @@ export function EarlyAccess() {
               onKeyDown={(e) => {
                 if (e.key === 'Enter') handleJoin();
               }}
+              disabled={status === 'submitting'}
               style={{
                 flex: 1,
                 minWidth: 220,
@@ -102,10 +117,12 @@ export function EarlyAccess() {
                 fontSize: 15,
                 outline: 'none',
                 fontFamily: 'inherit',
+                opacity: status === 'submitting' ? 0.6 : 1,
               }}
             />
             <button
               onClick={handleJoin}
+              disabled={status === 'submitting'}
               style={{
                 padding: '14px 28px',
                 borderRadius: 10,
@@ -114,10 +131,11 @@ export function EarlyAccess() {
                 color: '#ffffff',
                 fontWeight: 700,
                 fontSize: 15,
-                cursor: 'pointer',
+                cursor: status === 'submitting' ? 'wait' : 'pointer',
                 fontFamily: 'inherit',
                 boxShadow: '0 0 30px rgba(59,130,246,0.25)',
                 transition: 'all 0.25s',
+                opacity: status === 'submitting' ? 0.7 : 1,
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.boxShadow = '0 0 50px rgba(59,130,246,0.4)';
@@ -126,9 +144,15 @@ export function EarlyAccess() {
                 e.currentTarget.style.boxShadow = '0 0 30px rgba(59,130,246,0.25)';
               }}
             >
-              Join Waitlist
+              {status === 'submitting' ? 'Joining...' : 'Join Waitlist'}
             </button>
           </div>
+        )}
+
+        {status === 'error' && (
+          <p style={{ fontSize: 13, color: '#f87171', marginTop: 12 }}>
+            Something went wrong. Please try again.
+          </p>
         )}
 
         <p style={{ fontSize: 12, color: COLORS.dim, marginTop: 16 }}>

@@ -2,8 +2,8 @@ import { Counter } from './Counter';
 import { GRADIENT_TEXT } from '../constants';
 
 const STATS = [
-  { target: 50000, suffix: '+', label: 'Games Tracked' },
-  { target: 30, suffix: '+', label: 'Store Partners' },
+  { target: 352000, suffix: '+', label: 'Games Tracked' },
+  { target: 30, suffix: '+', label: 'Stores' },
   { target: 3, suffix: '', label: 'Platforms Synced' },
 ];
 

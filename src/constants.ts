@@ -23,13 +23,34 @@ export interface Feature {
   desc: string;
 }
 
-export interface Deal {
+export interface ApiDeal {
+  dealID: string;
   title: string;
-  store: string;
-  price: string;
-  original: string;
-  discount: string;
+  salePrice: string;
+  normalPrice: string;
+  savings: string;
+  dealRating: string;
+  storeID: string;
+  storeName: string;
+  steamAppID: string;
+  metacriticScore: string;
+  steamRatingText: string;
+  steamRatingPercent: string;
+  releaseDate: number;
+  thumb: string;
+  isOnSale: boolean;
+  rift: {
+    id: string;
+    igdbId: number;
+    slug: string;
+    coverUrl: string;
+    rating: string | null;
+    genres: string[];
+    matchType: string;
+  };
 }
+
+export const API_BASE = import.meta.env.VITE_API_URL;
 
 export const FEATURES: Feature[] = [
   { icon: '🔗', title: 'Unified Library', desc: 'Sync your Steam, Epic Games, and GOG libraries into one seamless collection. Every game you own, in a single view.' },
@@ -40,10 +61,3 @@ export const FEATURES: Feature[] = [
   { icon: '📖', title: 'Game Pages', desc: 'Rich detail pages — reviews, metadata, screenshots, and where to buy.' },
 ];
 
-export const DEALS: Deal[] = [
-  { title: 'Elden Ring', store: 'Steam', price: '$23.99', original: '$59.99', discount: '-60%' },
-  { title: "Baldur's Gate 3", store: 'GOG', price: '$35.99', original: '$59.99', discount: '-40%' },
-  { title: 'Cyberpunk 2077', store: 'Epic', price: '$14.99', original: '$49.99', discount: '-70%' },
-  { title: 'Hades II', store: 'Steam', price: '$19.49', original: '$29.99', discount: '-35%' },
-  { title: 'Disco Elysium', store: 'GOG', price: '$9.99', original: '$39.99', discount: '-75%' },
-];

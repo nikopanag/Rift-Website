@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__plugin_repomix-mcp_repomix__pack_codebase",
+      "mcp__plugin_repomix-mcp_repomix__read_repomix_output",
+      "WebFetch(domain:rift-server-production.up.railway.app)",
+      "Bash(curl:*)",
+      "Bash(echo:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(node -e \"fetch\\(''https://rift-server-production.up.railway.app/api/deals/top''\\).then\\(r=>r.json\\(\\)\\).then\\(d=>console.log\\(JSON.stringify\\(d,null,2\\).slice\\(0,3000\\)\\)\\).catch\\(e=>console.error\\(e.message\\)\\)\")",
+      "Bash(node -e \"fetch\\(''https://rift-server-production.up.railway.app/api/deals/top'',{signal:AbortSignal.timeout\\(20000\\)}\\).then\\(r=>{console.log\\(''status:'',r.status\\);return r.text\\(\\)}\\).then\\(t=>console.log\\(t.slice\\(0,3000\\)\\)\\).catch\\(e=>console.error\\(''Error:'',e.message,e.cause?.code\\)\\)\")",
+      "Bash(node -e \"fetch\\(''https://rift-server-production.up.railway.app/api/deals/top''\\).then\\(r=>r.json\\(\\)\\).then\\(d=>{console.log\\(''Total deals:'',d.data.length\\);console.log\\(''Fields:'',Object.keys\\(d.data[0]\\)\\);console.log\\(''Rift fields:'',Object.keys\\(d.data[0].rift\\)\\);console.log\\(''Stores:'',new Set\\(d.data.map\\(x=>x.storeName\\)\\)\\);console.log\\(''Sample cover URL:'',d.data[0].rift.coverUrl\\)}\\)\")",
+      "Bash(node -e:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx:*)",
+      "Bash(ls:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}

@@ -29,8 +29,21 @@ export function Footer() {
           RIFT
         </span>
       </div>
-      <div style={{ fontSize: 13, color: COLORS.dim }}>
-        &copy; {new Date().getFullYear()} Rift Launcher. All rights reserved.
+      <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
+        <div style={{ fontSize: 12, color: COLORS.dim }}>
+          Game data provided by{' '}
+          <a
+            href="https://www.igdb.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }}
+          >
+            IGDB
+          </a>
+        </div>
+        <div style={{ fontSize: 13, color: COLORS.dim }}>
+          &copy; {new Date().getFullYear()} Rift Launcher. All rights reserved.
+        </div>
       </div>
     </footer>
   );
