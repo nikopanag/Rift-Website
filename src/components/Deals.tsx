@@ -208,11 +208,11 @@ export function Deals() {
     const { signal } = controller;
 
     Promise.all([
-      fetch(`${API_BASE}/api/deals/top`, { signal }).then((r) => {
+      fetch(`${API_BASE}/api/deals/top`, { signal, cache: 'no-store' }).then((r) => {
         if (!r.ok) throw new Error(`API error: ${r.status}`);
         return r.json();
       }),
-      fetch(`${API_BASE}/api/deals/stores`, { signal })
+      fetch(`${API_BASE}/api/deals/stores`, { signal, cache: 'no-store' })
         .then((r) => (r.ok ? r.json() : { data: [] })),
     ])
       .then(([dealsData, storesData]) => {
