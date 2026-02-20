@@ -2,12 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { Glow } from './Glow';
 import { COLORS, API_BASE, type ApiDeal } from '../constants';
 
-interface StoreInfo {
-  storeID: string;
-  storeName: string;
-  images: { banner: string; logo: string; icon: string };
-}
-
 /* ─── Arrow Button ─── */
 function ArrowButton({ direction, disabled, onClick }: {
   direction: 'left' | 'right';
@@ -47,16 +41,17 @@ function ArrowButton({ direction, disabled, onClick }: {
 }
 
 /* ─── Deal Card ─── */
-function DealCard({ deal, width, storeMap }: {
+function DealCard({ deal, width }: {
   deal: ApiDeal;
   width: number;
-  storeMap: Record<string, StoreInfo>;
 }) {
   const [hovered, setHovered] = useState(false);
-  const discount = Math.round(parseFloat(deal.savings));
+  const discount = Math.round(deal.savingsPercent);
   const salePrice = parseFloat(deal.salePrice);
   const normalPrice = parseFloat(deal.normalPrice);
-  const store = storeMap[deal.storeID];
+  const coverUrl = deal.coverImageId
+    ? `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${deal.coverImageId}.jpg`
+    : null;
   const coverHeight = Math.round(width * 1.33);
 
   return (
@@ -83,9 +78,9 @@ function DealCard({ deal, width, storeMap }: {
         background: 'linear-gradient(135deg, rgba(59,130,246,0.12), rgba(6,182,212,0.08))',
         overflow: 'hidden',
       }}>
-        {deal.rift?.coverUrl ? (
+        {coverUrl ? (
           <img
-            src={deal.rift.coverUrl}
+            src={coverUrl}
             alt={deal.title}
             loading="lazy"
             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -113,15 +108,8 @@ function DealCard({ deal, width, storeMap }: {
           {deal.title}
         </div>
 
-        {/* Store logo + name */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8 }}>
-          {store?.images?.icon && (
-            <img
-              src={store.images.icon}
-              alt={deal.storeName}
-              style={{ width: 16, height: 16, borderRadius: 3, flexShrink: 0 }}
-            />
-          )}
+        {/* Store name */}
+        <div style={{ marginTop: 8 }}>
           <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 600 }}>
             {deal.storeName}
           </span>
@@ -173,7 +161,6 @@ function DealSkeleton({ width }: { width: number }) {
 /* ─── Main Deals Section ─── */
 export function Deals() {
   const [deals, setDeals] = useState<ApiDeal[]>([]);
-  const [storeMap, setStoreMap] = useState<Record<string, StoreInfo>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -202,28 +189,22 @@ export function Deals() {
     setCurrentIndex((prev) => Math.min(prev, maxIndex));
   }, [maxIndex]);
 
-  /* Fetch deals + stores in parallel */
+  /* Fetch featured deals */
   useEffect(() => {
     const controller = new AbortController();
     const { signal } = controller;
 
-    Promise.all([
-      fetch(`${API_BASE}/api/deals/top`, { signal, cache: 'no-store' }).then((r) => {
+    fetch(`${API_BASE}/api/deals/featured`, { signal, cache: 'no-store' })
+      .then((r) => {
         if (!r.ok) throw new Error(`API error: ${r.status}`);
         return r.json();
-      }),
-      fetch(`${API_BASE}/api/deals/stores`, { signal, cache: 'no-store' })
-        .then((r) => (r.ok ? r.json() : { data: [] })),
-    ])
-      .then(([dealsData, storesData]) => {
-        const items: ApiDeal[] = Array.isArray(dealsData) ? dealsData : dealsData.data ?? [];
+      })
+      .then((data) => {
+        const topCategory = data.categories?.find(
+          (c: { id: string }) => c.id === 'top_deals',
+        );
+        const items: ApiDeal[] = topCategory?.deals ?? [];
         setDeals(items.slice(0, 20));
-
-        const stores: StoreInfo[] = Array.isArray(storesData) ? storesData : storesData.data ?? [];
-        const map: Record<string, StoreInfo> = {};
-        for (const s of stores) map[s.storeID] = s;
-        setStoreMap(map);
-
         setLoading(false);
       })
       .catch((err) => {
@@ -282,7 +263,7 @@ export function Deals() {
                   </div>
                 )
                 : deals.map((deal) => (
-                  <DealCard key={deal.dealID} deal={deal} width={cardWidth} storeMap={storeMap} />
+                  <DealCard key={deal.dealId} deal={deal} width={cardWidth} />
                 ))}
           </div>
         </div>

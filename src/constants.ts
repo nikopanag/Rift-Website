@@ -24,30 +24,18 @@ export interface Feature {
 }
 
 export interface ApiDeal {
-  dealID: string;
+  dealId: string;
   title: string;
   salePrice: string;
   normalPrice: string;
-  savings: string;
-  dealRating: string;
-  storeID: string;
+  savingsPercent: number;
   storeName: string;
-  steamAppID: string;
-  metacriticScore: string;
-  steamRatingText: string;
-  steamRatingPercent: string;
-  releaseDate: number;
-  thumb: string;
-  isOnSale: boolean;
-  rift: {
-    id: string;
-    igdbId: number;
-    slug: string;
-    coverUrl: string;
-    rating: string | null;
-    genres: string[];
-    matchType: string;
-  };
+  storeId: string;
+  dealUrl: string;
+  riftId: string | null;
+  coverImageId: string | null;
+  rating: number | null;
+  releaseYear: number | null;
 }
 
 export const API_BASE = import.meta.env.VITE_API_URL;
